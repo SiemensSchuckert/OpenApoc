@@ -2039,7 +2039,7 @@ void CityView::update()
 							    tr("At") + UString(" ") +
 							    tr(agent->currentVehicle->currentBuilding->name));
 						else if (!agent->missions.empty() &&
-							     agent->missions.front()->targetBuilding)
+						         agent->missions.front()->targetBuilding)
 						{
 							if (agent->missions.front()->targetBuilding == agent->homeBuilding)
 								agentAssignment->setText(tr("Returning to base"));
@@ -2078,7 +2078,7 @@ void CityView::update()
 			{
 				if (agent->missions.empty() &&
 				    agent->modified_stats.health < agent->current_stats.health)
-						agentAssignment->setText(tr("Wounded"));
+					agentAssignment->setText(tr("Wounded"));
 				else
 					switch (agent->trainingAssignment)
 					{
@@ -2108,7 +2108,6 @@ void CityView::update()
 						}
 					}
 			}
-
 		}
 
 		int currentAgentIndex = -1;
