@@ -2725,8 +2725,7 @@ void CityView::update()
 					break;
 			}
 			relation += UString(" ") + tr(state->getPlayer()->name);
-			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_RELATION")
-				->setText(relation);
+			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_RELATION")->setText(relation);
 		}
 
 		int currentOrgIndex = -1;
