@@ -17,6 +17,7 @@
 #include "game/state/city/city.h"
 #include "game/state/city/facility.h"
 #include "game/state/city/vehicle.h"
+#include "game/state/city/vehiclemission.h"
 #include "game/state/city/vequipment.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/aequipmenttype.h"
@@ -89,6 +90,7 @@ void ControlGenerator::init(GameState &state)
 		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%s:xcom3/ufodata/pal_01.dat",
 		    i)));
 	}
+	icons.push_back(fw().data->loadImage("test_images/ret_ico.png"));
 
 	vehiclePassengerCountIcons.emplace_back();
 	for (int i = 51; i <= 63; i++)
@@ -163,8 +165,21 @@ VehicleTileInfo ControlGenerator::createVehicleInfo(GameState &state, sp<Vehicle
 		}
 	}
 	else
-	{
-		t.state = CityUnitState::InMotion;
+	{	
+		if (!v->missions.empty())
+		{	
+			for (auto &m : v->missions)
+			{
+				if (m->type == VehicleMission::MissionType::GotoBuilding)
+					if (m->targetBuilding == v->homeBuilding)
+					{
+						t.state = CityUnitState::InReturn;
+						break;
+					}
+			}
+		}
+		if (t.state != CityUnitState::InReturn)
+			t.state = CityUnitState::InMotion;
 	}
 	return t;
 }

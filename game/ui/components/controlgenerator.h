@@ -34,6 +34,7 @@ enum class CityUnitState
 	InVehicle = 1,
 	InBuilding = 2,
 	InMotion = 3,
+	InReturn = 4,
 };
 
 enum class UnitSelectionState
