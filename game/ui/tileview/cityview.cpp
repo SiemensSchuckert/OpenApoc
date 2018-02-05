@@ -2703,8 +2703,8 @@ void CityView::update()
 
 		auto selectedOrg = state->current_city->cityViewSelectedOrganisation;
 		if (selectedOrg && (state->current_city->cityViewOrgButtonIndex == 0 ||
-		    static_cast<int>(selectedOrg->isRelatedTo(state->getPlayer())) ==
-		        state->current_city->cityViewOrgButtonIndex - 1))
+		                    static_cast<int>(selectedOrg->isRelatedTo(state->getPlayer())) ==
+		                        state->current_city->cityViewOrgButtonIndex - 1))
 		{
 			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_NAME")->setText(tr(selectedOrg->name));
 			UString relation = "";
