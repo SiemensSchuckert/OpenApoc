@@ -2032,12 +2032,12 @@ void CityView::update()
 					if (!agent->recentlyHired)
 					{
 						if (agent->currentBuilding)
-							agentAssignment->setText(tr("At") + UString(" ") +
-							                         tr(agent->currentBuilding->name));
+							agentAssignment->setText(tr("At") + UString(" ")
+							                         + tr(agent->currentBuilding->name));
 						else if (agent->currentVehicle && agent->currentVehicle->currentBuilding)
 							agentAssignment->setText(
-							    tr("At") + UString(" ") +
-							    tr(agent->currentVehicle->currentBuilding->name));
+							    tr("At") + UString(" ")
+							    + tr(agent->currentVehicle->currentBuilding->name));
 						else if (!agent->missions.empty() &&
 						         agent->missions.front()->targetBuilding)
 						{
@@ -2045,24 +2045,24 @@ void CityView::update()
 								agentAssignment->setText(tr("Returning to base"));
 							else
 								agentAssignment->setText(
-								    tr("Traveling to:") + UString(" ") +
-								    tr(agent->missions.front()->targetBuilding->name));
+								    tr("Traveling to:") + UString(" ")
+								    + tr(agent->missions.front()->targetBuilding->name));
 						}
 						else if (agent->currentVehicle &&
 						         !agent->currentVehicle->missions.empty() &&
 						         agent->currentVehicle->missions.front()->targetBuilding)
 						{
-							if (agent->currentVehicle->missions.front()->targetBuilding ==
-							    agent->homeBuilding)
+							if (agent->currentVehicle->missions.front()->targetBuilding
+							    == agent->homeBuilding)
 								agentAssignment->setText(tr("Returning to base"));
 							else
-								agentAssignment->setText(tr("Traveling to:") + UString(" ") +
-								                         tr(agent->currentVehicle->missions.front()
+								agentAssignment->setText(tr("Traveling to:") + UString(" ")
+								                         + tr(agent->currentVehicle->missions.front()
 								                                ->targetBuilding->name));
 						}
 						else
-							agentAssignment->setText(tr("Traveling to:") + UString(" ") +
-							                         tr("map point"));
+							agentAssignment->setText(tr("Traveling to:") + UString(" ")
+							                         + tr("map point"));
 					}
 					else
 						agentAssignment->setText(tr("Reporting to base"));
@@ -2223,9 +2223,9 @@ void CityView::update()
 							{
 								UString pr = tr(fac->lab->current_project->name);
 								int progress = (static_cast<float>(
-								                    fac->lab->current_project->man_hours_progress) /
-								                fac->lab->current_project->man_hours) *
-								               100;
+								                    fac->lab->current_project->man_hours_progress)
+								                    / fac->lab->current_project->man_hours)
+								                    * 100;
 								agentAssignment->setText(pr + format(" (%d%%)", progress));
 							}
 							else
@@ -2352,12 +2352,12 @@ void CityView::update()
 							{
 								UString pr = tr(fac->lab->current_project->name);
 								int progress =
-								    (static_cast<float>(fac->lab->manufacture_man_hours_invested +
-								                        fac->lab->current_project->man_hours *
-								                            fac->lab->manufacture_done) /
-								     (fac->lab->current_project->man_hours *
-								      fac->lab->manufacture_goal)) *
-								    100;
+								    (static_cast<float>(fac->lab->manufacture_man_hours_invested
+								                        + fac->lab->current_project->man_hours
+								                        * fac->lab->manufacture_done)
+								     / (fac->lab->current_project->man_hours
+								      * fac->lab->manufacture_goal))
+								      * 100;
 								agentAssignment->setText(pr + format(" (%d%%)", progress));
 							}
 							else
@@ -2484,9 +2484,9 @@ void CityView::update()
 							{
 								UString pr = tr(fac->lab->current_project->name);
 								int progress = (static_cast<float>(
-								                    fac->lab->current_project->man_hours_progress) /
-								                fac->lab->current_project->man_hours) *
-								               100;
+								                    fac->lab->current_project->man_hours_progress)
+								                / fac->lab->current_project->man_hours)
+								                * 100;
 								agentAssignment->setText(pr + format(" (%d%%)", progress));
 							}
 							else
@@ -2702,7 +2702,9 @@ void CityView::update()
 		}
 
 		auto selectedOrg = state->current_city->cityViewSelectedOrganisation;
-		if (selectedOrg)
+		if (selectedOrg && (state->current_city->cityViewOrgButtonIndex == 0
+			|| static_cast<int>(selectedOrg->isRelatedTo(state->getPlayer()))
+			== state->current_city->cityViewOrgButtonIndex - 1))
 		{
 			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_NAME")->setText(tr(selectedOrg->name));
 			UString relation = "";
@@ -2726,6 +2728,11 @@ void CityView::update()
 			}
 			relation += UString(" ") + tr(state->getPlayer()->name);
 			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_RELATION")->setText(relation);
+		}
+		else
+		{
+			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_NAME")->setText("");
+			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_RELATION")->setText("");
 		}
 
 		int currentOrgIndex = -1;
@@ -2821,7 +2828,7 @@ void CityView::update()
 
 	// If we have 'follow vehicle' enabled we clobber any other movement that may have occurred in
 	// this frame
-	if (this->followVehicle)
+	if (this->followVehicle && this->updateSpeed != CityUpdateSpeed::Pause)
 	{
 		if (!state->current_city->cityViewSelectedVehicles.empty())
 		{
